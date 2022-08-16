@@ -1,0 +1,75 @@
+<?php
+
+use common\Infrastructure\ViewHelpers\Pagination;
+use MagicPro\Tools\Common as CommonTools;
+
+if (count($vars->getVar('list'))) {
+    ?>
+    <table class="table table-striped table-hover table-bordered">
+        <thead>
+        <tr class="success">
+            <th>#</th>
+            <th>Логин</th>
+            <th>ФИО</th>
+            <th>Email</th>
+            <th>Регистрация</th>
+            <th>Посл. посещение</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+        $i = 0;
+        foreach ($vars->getVar('list') as $k => $v) {
+            ?>
+            <tr>
+                <td><?= ++$i; ?></td>
+                <td>
+                    <a href="?action=editUser&uid=<?= $v['uid']; ?>"><?= $v['login']; ?></a>
+                    <?php
+                    if (!$v["active"] || !$v["email"]) {
+                    ?>
+                    <a href="#" id="<?= $v["uid"] ?>" class="viewReason" data-toggle="modal" data-target="#viewReason">
+                        <span class="glyphicon glyphicon-lock"></span>
+                        <?php
+                        }
+                        ?>
+                </td>
+                <td><?= $v['fio'] ?></td>
+                <td><?= $v['email'] ?>
+                </td>
+                <td class="small"><?= CommonTools::ParseDate($v["regTime"]), ' в ', CommonTools::ParseDate($v["regTime"], 'H:i') ?></td>
+                <td class="small"><?= CommonTools::ParseDate($v["lastTime"]), ' в ', CommonTools::ParseDate($v["lastTime"], 'H:i') ?></td>
+            </tr>
+            <?php
+        }
+        ?>
+        </tbody>
+    </table>
+    <?php
+}
+
+$data = array(
+    'page' => $vars->getVar('page'),
+    'total' => $vars->getVar('total'),
+    'itemPerPage' => $vars->getVar('itemPerPage'),
+);
+if ($data['total'] > $data['itemPerPage']) {
+    echo app('view')->make()
+        ->setViewHelper(Pagination::class, $data)
+        ->setTemplate('common@pagination/forward-backward')
+        ->render();
+}
+?>
+
+<!-- Modal для активации-блокировки пользователя -->
+<div class="modal fade" id="viewReason" tabindex="-1" role="dialog" aria-labelledby="viewReasonLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                <h4 class="modal-title" id="viewReasonLabel">Причина блокировки пользователя</h4>
+            </div>
+            <div class="modal-body" id="viewReasonBody">Причина...</div>
+        </div>
+    </div>
+</div>

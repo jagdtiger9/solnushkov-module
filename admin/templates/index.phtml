@@ -1,0 +1,30 @@
+<?php
+
+use design\Services\MegaTemplate\Helpers\MetaHelper;
+
+MetaHelper::addTitle('Повторная отправка писем с ошибками');
+
+$this->setLayout('common@layout/bootstrap');
+
+include 'head.inc.phtml';
+
+$this->includeFile('common@notify.inc');
+?>
+<h2 class="text-left">Вернуть в очередь письма с ошибками</h2>
+<div class="mv-20">
+    <form class="form-inline" role="form" method="get" action="./">
+        <input type="hidden" name="part" value="adminAction">
+        <input type="hidden" name="action" value="restoreLetters">
+        <div class="form-group">
+            <label>За:</label>
+            <select name="restorePeriod" class="form-control">
+                <option value="1">последний день</option>
+                <option value="2">последние два дня</option>
+                <option value="3">последние три дня</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary">Выполнить</button>
+        </div>
+    </form>
+</div>

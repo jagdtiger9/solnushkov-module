@@ -1,0 +1,59 @@
+<?php
+use design\Services\MegaTemplate\Helpers\MetaHelper;
+use sendmail\Application\Service\BodyTranslator;
+
+MetaHelper::addTitle('Письмо с восстановлением пароля пользователю');
+
+$this->setLayout('common@layout/bootstrap');
+
+include 'head.inc.phtml';
+
+$this->includeFile('common@notify.inc');
+?>
+<h2 class="text-left">Отправить письмо с новым паролем пользователю</h2>
+<div class="container-fluid">
+    <div class="row">
+        <form name="testSend" action="./" enctype="multipart/form-data" method="post">
+            <input type="hidden" name="part" value="adminAction">
+            <input type="hidden" name="action" value="send">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label for="testEmail">Email</label>
+                    <input type="email" name="email" class="form-control" id="testEmail" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <label for="testTitle">Заголовок</label>
+                    <input type="text" name="title" class="form-control" id="testTitle" placeholder="Заголовок">
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label for="testMessage">Сообщение</label>
+                    <textarea name="message" class="form-control" id="testMessage" placeholder="Сообщение" rows="20"></textarea>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="testMessage">Общие переменные, используемые в письме:</label>
+                <p class="bg-warning">Дополнительные переменные определяются для каждого письма отдельно.
+                    Доступ через контейнер <b>Var</b></p>
+                <div class="well well-sm">
+                    <?php
+                    $replaces = BodyTranslator::MAIL_REPLACES;
+                    $replaces['password'] = 'Новый пароль';
+                    array_walk(
+                        $replaces,
+                        function ($val, $key) {
+                            echo '<b>' . $key . '</b> - ' . $val . '<br />';
+                        }
+                    );
+                    ?>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

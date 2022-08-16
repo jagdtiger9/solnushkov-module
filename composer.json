@@ -1,0 +1,12 @@
+{
+    "name": "aljerom/solnushkov-module",
+    "license": "MIT",
+    "version": "0.0.1",
+    "type": "magicpro-package",
+    "description": "SolnushkovModule",
+    "autoload": {
+        "psr-4": {
+            "Aljerom\\Solnushkov\\": ""
+        }
+    }
+}

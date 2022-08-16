@@ -1,0 +1,12 @@
+<?php
+
+use MagicPro\Contracts\Session\FlashInterface;
+
+if (app(FlashInterface::class)->has('msg')) {
+?>
+    <div class="alert alert-dismissible alert-<?=app(FlashInterface::class)->getType('msg')?>">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <p><?= app(FlashInterface::class)->get('msg') ?></p>
+    </div>
+<?php
+}

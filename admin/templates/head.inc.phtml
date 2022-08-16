@@ -1,0 +1,18 @@
+<?php
+
+use design\Services\MegaTemplate\Helpers\MetaHelper;
+use MagicPro\Assets\Assets;
+
+$request = \app('request');
+\app()->set(
+    'adminPageMenu',
+    [
+        ['uri' => './', 'title' => 'Письма с ошибками', 'active' => !$request->Get('action')],
+        [
+            'uri' => './?action=restorePass',
+            'title' => 'Восстановление доступа',
+            'active' => $request->Get('action') === 'restorePass'
+        ],
+    ]
+);
+MetaHelper::addJS(Assets::get(dirname(__DIR__) . '/script.js'));
