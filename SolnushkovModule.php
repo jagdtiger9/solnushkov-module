@@ -13,7 +13,7 @@ class SolnushkovModule extends AbstractModule
 
     public function getName(): string
     {
-        return 'blog';
+        return 'solnushkov';
     }
 
     public function getTitle(): string
