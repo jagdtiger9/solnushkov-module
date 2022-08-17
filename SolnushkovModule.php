@@ -11,14 +11,13 @@ class SolnushkovModule extends AbstractModule
         return __DIR__;
     }
 
+    public function getName(): string
+    {
+        return 'blog';
+    }
+
     public function getTitle(): string
     {
-        return 'Каталог';
+        return 'Solnushkov';
     }
-
-    public function getIconPath(): string
-    {
-        return realpath($this->modulePath . '/' . AbstractModule::MODULE_ICON);
-    }
-
 }
