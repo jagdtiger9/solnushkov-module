@@ -16,6 +16,9 @@ class TgAuthenticateHandler
 
     public function handler(TgUserAuthenticated $event): void
     {
+        $this->logger
+            ->setLog('telegramUserAuthenticatedArticle.log', 'telegram')
+            ->debug(var_export($event, true));
         if (!$event->isNew()) {
             return;
         }
