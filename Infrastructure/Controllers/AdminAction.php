@@ -40,7 +40,7 @@ class AdminAction extends Controller
                 $letters = array_reduce(
                     $recipients,
                     function ($carry, $item) use ($config) {
-                        $carry[] = ['uid' => $item->letterId, 'senderEmail' => $config->settings['from']];
+                        $carry[] = ['uid' => $item->letterId, 'senderEmail' => $config['from']];
 
                         return $carry;
                     },

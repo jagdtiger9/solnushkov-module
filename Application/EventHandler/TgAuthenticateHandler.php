@@ -20,14 +20,18 @@ class TgAuthenticateHandler
             return;
         }
 
-        $result = $this->view
-            ->make()
-            ->setClientFinder()
-            ->setTemplate('telegramUserAuthenticated')
-            ->render([
-                'userId' => $event->userId(),
-                'tgUserId' => $event->telegramUserId(),
-            ]);
+        try {
+            $result = $this->view
+                ->make()
+                ->setClientFinder()
+                ->setTemplate('telegramUserAuthenticated')
+                ->render([
+                    'userId' => $event->userId(),
+                    'tgUserId' => $event->telegramUserId(),
+                ]);
+        } catch (\Throwable $e) {
+            $result = $e->getMessage();
+        }
         $this->logger
             ->setLog('telegramUserAuthenticatedArticle.log', 'telegram')
             ->debug(var_export($result, true));
