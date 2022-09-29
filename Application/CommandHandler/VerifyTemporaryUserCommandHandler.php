@@ -2,7 +2,8 @@
 
 namespace Aljerom\Solnushkov\Application\CommandHandler;
 
-use MagicPro\DomainModel\Entity\ReleaseEventTrait;
+use MagicPro\DomainModel\Entity\DomainEventStoreTrait;
+use MagicPro\DomainModel\Event\DomainEventStore;
 use MagicPro\Event\Event;
 use MagicPro\Messenger\Handler\MessageHandlerInterface;
 use phorum\Domain\Exception\RuntimeException;
@@ -12,27 +13,17 @@ use Aljerom\Solnushkov\Domain\Service\SystemUser;
 
 class VerifyTemporaryUserCommandHandler implements MessageHandlerInterface
 {
-    use ReleaseEventTrait;
-
-    protected Event $event;
-
-    private TemporaryUserRepositoryInterface $tempUserRepo;
-
-    private SystemUser $systemUser;
+    use DomainEventStoreTrait;
 
     public function __construct(
-        Event                            $event,
-        TemporaryUserRepositoryInterface $tempUserRepo,
-        SystemUser                       $systemUser
+        private Event                            $event,
+        private TemporaryUserRepositoryInterface $tempUserRepo,
+        private SystemUser                       $systemUser,
+        DomainEventStore                         $domainEventStore,
     ) {
-        $this->tempUserRepo = $tempUserRepo;
-        $this->systemUser = $systemUser;
-        $this->event = $event;
+        $this->domainEventStore = $domainEventStore;
     }
 
-    /**
-     * @param VerifyTemporaryUserCommand $command
-     */
     public function __invoke(VerifyTemporaryUserCommand $command): void
     {
         if (!$tempUser = $this->tempUserRepo->getByEmailPass($command->email, $command->password)) {
@@ -42,6 +33,6 @@ class VerifyTemporaryUserCommandHandler implements MessageHandlerInterface
         // Пишем события для проверки-создания системного пользователя и авторизации
         $tempUser->setValidated($this->systemUser);
 
-        $this->releaseEvents($tempUser);
+        $this->entityEventStore($tempUser);
     }
 }

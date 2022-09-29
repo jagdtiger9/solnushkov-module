@@ -17,8 +17,10 @@ class VerifyTemporaryUserApi extends AbstractApiResource
 STR;
     }
 
-    public function getValidatedMessage(ServerRequestInterface $request, ValidatedMessageInterface $validatedMessage): VerifyTemporaryUserCommand
-    {
+    public function getValidatedMessage(
+        ServerRequestInterface    $request,
+        ValidatedMessageInterface $validatedMessage
+    ): VerifyTemporaryUserCommand {
         return $validatedMessage->fromRequest($this->inputParam(), $request);
     }
 
