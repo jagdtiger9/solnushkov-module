@@ -14,12 +14,8 @@ class TgAuthenticateHandler
     ) {
     }
 
-    public function handle(TgUserAuthenticated $event): void
+    public function __invoke(TgUserAuthenticated $event): void
     {
-        if (!$event->isNew()) {
-            return;
-        }
-
         try {
             $result = $this->view
                 ->make()
