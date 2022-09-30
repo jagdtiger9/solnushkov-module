@@ -5,6 +5,7 @@ namespace Aljerom\Solnushkov\Application\EventHandler;
 use MagicPro\Contracts\Logger\LoggerInterface;
 use MagicPro\View\View;
 use telegram\Domain\Event\TgUserAuthenticated;
+use telegram\Domain\Event\TgUserRegistered;
 
 class TgAuthenticateHandler
 {
@@ -14,7 +15,7 @@ class TgAuthenticateHandler
     ) {
     }
 
-    public function __invoke(TgUserAuthenticated $event): void
+    public function __invoke(TgUserAuthenticated|TgUserRegistered $event): void
     {
         try {
             $result = $this->view
