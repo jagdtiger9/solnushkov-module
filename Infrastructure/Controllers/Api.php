@@ -46,8 +46,10 @@ class Api extends Controller
         return $this->setApiResponse($request, $apiResponse->withRedirect());
     }
 
-    public function actionCreateTemporaryUser(ServerRequestInterface $request, CreateTemporaryUserApi $api): ResponseInterface
-    {
+    public function actionCreateTemporaryUser(
+        ServerRequestInterface $request,
+        CreateTemporaryUserApi $api
+    ): ResponseInterface {
         try {
             $message = $api->getValidatedMessage($request, $this->validatedMessage);
             $this->dispatch($message);

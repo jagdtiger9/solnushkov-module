@@ -33,6 +33,6 @@ class VerifyTemporaryUserCommandHandler implements MessageHandlerInterface
         // Пишем события для проверки-создания системного пользователя и авторизации
         $tempUser->setValidated($this->systemUser);
 
-        $this->entityEventStore($tempUser);
+        $this->storeEntityEvent($tempUser);
     }
 }
