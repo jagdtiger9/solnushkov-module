@@ -7,14 +7,8 @@ use Aljerom\Solnushkov\Domain\Entity\TemporaryUser;
 
 class TempUserValidated implements Dto
 {
-    /**
-     * @var string
-     */
     private string $email;
 
-    /**
-     * @var
-     */
     private string $password;
 
     public function __construct(TemporaryUser $tempUser)
