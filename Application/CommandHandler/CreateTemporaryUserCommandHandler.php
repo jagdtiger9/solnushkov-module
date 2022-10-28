@@ -2,7 +2,6 @@
 
 namespace Aljerom\Solnushkov\Application\CommandHandler;
 
-use MagicPro\Contracts\User\CurrentUserInterface;
 use MagicPro\Messenger\Handler\MessageHandlerInterface;
 use Aljerom\Solnushkov\Application\Command\CreateTemporaryUserCommand;
 use Aljerom\Solnushkov\Domain\Entity\TemporaryUser;
@@ -14,7 +13,6 @@ class CreateTemporaryUserCommandHandler implements MessageHandlerInterface
     public function __construct(
         private TemporaryUserRepositoryInterface $tempUserRepo,
         private SystemUser                       $systemUser,
-        private CurrentUserInterface             $user,
     ) {
     }
 
