@@ -14,15 +14,13 @@ class CreateTemporaryUserCommand extends SimpleDto implements CommandInterface, 
 
     /**
      * Email пользователя
-     * @var string
      */
-    public $email;
+    public string $email;
 
     /**
      * Пароль
-     * @var string
      */
-    public $password;
+    public string $password;
 
     public function __construct(string $email = '', string $password = '')
     {

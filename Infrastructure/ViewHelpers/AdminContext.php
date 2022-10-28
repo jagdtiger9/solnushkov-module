@@ -15,7 +15,7 @@ use Psr\Container\ContainerInterface;
  */
 class AdminContext extends AbstractViewHelper
 {
-    private static $savedContext;
+    private static ?SessionInterface $savedContext = null;
 
     private SessionInterface $session;
 
@@ -24,9 +24,9 @@ class AdminContext extends AbstractViewHelper
     private FrameworkConfig $config;
 
     public function __construct(
-        SessionInterface $session,
+        SessionInterface   $session,
         ContainerInterface $container,
-        FrameworkConfig $config
+        FrameworkConfig    $config
     ) {
         $this->session = $session;
         $this->container = $container;

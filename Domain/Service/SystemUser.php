@@ -2,8 +2,8 @@
 
 namespace Aljerom\Solnushkov\Domain\Service;
 
+use Aljerom\Solnushkov\Domain\Entity\SystemUserDto;
 use MagicPro\Contracts\Database\DatabaseNewInterface;
-use Aljerom\Solnushkov\Domain\Entity\Identity\UserId;
 
 class SystemUser
 {
@@ -16,16 +16,16 @@ class SystemUser
 
     /**
      * @param string $email
-     * @return UserId|null
+     * @return SystemUserDto|null
      */
-    public function getUserByEmail(string $email): ?UserId
+    public function getUserByEmail(string $email): ?SystemUserDto
     {
         $result = $this->database->select()
-            ->columns(['u.uid', 'u.email'])
+            ->columns(['u.uid', 'u.email', 'u.active'])
             ->from('SA__user as u')
             ->where('email', $email)
             ->fetchAll();
 
-        return $result ? new UserId($result[0]['uid']) : null;
+        return $result ? new SystemUserDto($result[0]['uid'], $result[0]['email'], $result[0]['active']) : null;
     }
 }

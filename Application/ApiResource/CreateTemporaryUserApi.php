@@ -17,8 +17,10 @@ class CreateTemporaryUserApi extends AbstractApiResource
 STR;
     }
 
-    public function getValidatedMessage(ServerRequestInterface $request, ValidatedMessageInterface $validatedMessage): CreateTemporaryUserCommand
-    {
+    public function getValidatedMessage(
+        ServerRequestInterface    $request,
+        ValidatedMessageInterface $validatedMessage
+    ): CreateTemporaryUserCommand {
         return $validatedMessage->fromRequest($this->inputParam(), $request);
     }
 
