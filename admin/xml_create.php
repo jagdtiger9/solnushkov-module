@@ -1,6 +1,6 @@
 <?php
 
-use dumpsite\Models\Dump;
+use common\Application\Service\Dump;
 
 $sql = <<<SQL
 CREATE TABLE IF NOT EXISTS `sol__emailUser` (
