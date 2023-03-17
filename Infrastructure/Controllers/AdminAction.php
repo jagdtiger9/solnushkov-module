@@ -2,17 +2,21 @@
 
 namespace Aljerom\Solnushkov\Infrastructure\Controllers;
 
+use App\DomainModel\ValueObject\EmailVO;
+use DateTimeImmutable;
 use Exception;
-use MagicPro\Config\Config;
 use MagicPro\Application\Controller;
+use MagicPro\Config\Config;
 use MagicPro\Contracts\MailInterface;
+use MagicPro\DomainModel\ORM\EntityManagerInterface;
 use MagicPro\Http\Api\ErrorResponse;
 use MagicPro\Http\Api\SuccessResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use sendmail\Domain\Models\Letter;
 use sendmail\Domain\Models\Recipient;
-use sessauth\Domain\Models\User;
+use sessauth\Domain\Repository\UserRepositoryInterface;
+use sessauth\Domain\Service\SecretString;
 
 class AdminAction extends Controller
 {
@@ -63,37 +67,33 @@ class AdminAction extends Controller
         return $this->setApiResponse($request, $apiResponse->withRedirect());
     }
 
-    public function actionSend(ServerRequestInterface $request, MailInterface $mailer): ResponseInterface
-    {
+    public function actionSend(
+        ServerRequestInterface $request,
+        UserRepositoryInterface $userRepo,
+        SecretString $secret,
+        EntityManagerInterface $entityManager,
+        MailInterface $mailer,
+    ): ResponseInterface {
         try {
-            if (!($email = $request->Post('email'))) {
+            if (!$email = $request->getParsedBody()['email'] ?? '') {
                 throw new \InvalidArgumentException('Не указан email получателя');
             }
-
-            if (!count($users = User::where('email', htmlspecialchars($email))->get())) {
+            if (!$user = $userRepo->getByEmail(new EmailVO(htmlspecialchars($email)))) {
                 throw new \UnexpectedValueException('Учетной записи с указанным email не найдено');
             }
-            if (count($users) > 1) {
-                throw new \UnexpectedValueException('Найдено более одной учетной записи с указанным email');
-            }
-
-            if (!($title = $request->Post('title'))) {
+            if (!$title = $request->getParsedBody()['title'] ?? '') {
                 throw new \InvalidArgumentException('Не указан заголовок сообщения');
             }
-
-            if (!($message = $request->Post('message'))) {
+            if (!$message = $request->getParsedBody()['message'] ?? '') {
                 throw new \InvalidArgumentException('Не указано тело сообщения');
             }
+            $pass = $user->newPassRequestHash($secret, new DateTimeImmutable());
+            $entityManager->persist($user);
+            $entityManager->run();
 
-            $newPassword = $users[0]->requestNewPass();
-            if (false === $users[0]->save()) {
-                throw new \RuntimeException('Ошибка создания нового пароля');
-            }
-
-            if (!$mailer->addParams(['password' => $newPassword])->send($users[0]->email, $title, $message)) {
+            if (!$mailer->addParams(['password' => $pass])->send($user->email(), $title, $message)) {
                 throw new \RuntimeException('Ошибка отправки письма. ' . $mailer->error());
             }
-
             $this->flash->set('msg', 'Письмо успешно отправлено', 'success');
         } catch (\Exception $e) {
             $this->flash->set('msg', $e->getMessage(), 'danger');

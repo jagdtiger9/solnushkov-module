@@ -2,8 +2,8 @@
 
 namespace Aljerom\Solnushkov\Domain\Event;
 
-use MagicPro\DomainModel\Dto\Dto;
 use Aljerom\Solnushkov\Domain\Entity\TemporaryUser;
+use MagicPro\DomainModel\Dto\Dto;
 
 class SystemUserCreated implements Dto
 {
