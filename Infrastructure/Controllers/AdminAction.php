@@ -36,7 +36,7 @@ class AdminAction extends Controller
                 ->format('Y-m-d H:i:s');
             $toTime = (new \DateTime())->format('Y-m-d H:i:s');
 
-            $recipients = Recipient::whereBetween('lastTrialTime', [$fromTime, $toTime])->get();
+            $recipients = Recipient::whereBetween('sendAfterTime', [$fromTime, $toTime])->get();
             $count = 0;
             if (\count($recipients)) {
                 $config = Config::get('sendmail');
