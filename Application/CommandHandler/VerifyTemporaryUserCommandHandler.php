@@ -6,7 +6,7 @@ use Aljerom\Solnushkov\Application\Command\VerifyTemporaryUserCommand;
 use Aljerom\Solnushkov\Domain\Repository\TemporaryUserRepositoryInterface;
 use Aljerom\Solnushkov\Domain\Service\SystemUser;
 use MagicPro\DomainModel\Entity\DomainEventStoreTrait;
-use MagicPro\DomainModel\Event\DomainEventStore;
+use MagicPro\DomainModel\Event\DomainEventStoreInterface;
 use MagicPro\Event\Event;
 use MagicPro\Messenger\Handler\MessageHandlerInterface;
 use phorum\Domain\Exception\RuntimeException;
@@ -19,7 +19,7 @@ class VerifyTemporaryUserCommandHandler implements MessageHandlerInterface
         private Event $event,
         private TemporaryUserRepositoryInterface $tempUserRepo,
         private SystemUser $systemUser,
-        DomainEventStore $domainEventStore,
+        DomainEventStoreInterface $domainEventStore,
     ) {
         $this->domainEventStore = $domainEventStore;
     }
