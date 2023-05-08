@@ -10,7 +10,7 @@ use telegram\Domain\Event\TgUserRegistered;
 class TgAuthenticateHandler
 {
     public function __construct(
-        private View            $view,
+        private View $view,
         private LoggerInterface $logger,
     ) {
     }

@@ -3,9 +3,8 @@
 namespace Aljerom\Solnushkov\Domain\Event;
 
 use Aljerom\Solnushkov\Domain\Entity\TemporaryUser;
-use MagicPro\DomainModel\Dto\Dto;
 
-class SystemUserCreated implements Dto
+class SystemUserCreated
 {
     public string $email;
 

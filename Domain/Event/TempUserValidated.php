@@ -2,10 +2,9 @@
 
 namespace Aljerom\Solnushkov\Domain\Event;
 
-use MagicPro\DomainModel\Dto\Dto;
 use Aljerom\Solnushkov\Domain\Entity\TemporaryUser;
 
-class TempUserValidated implements Dto
+class TempUserValidated
 {
     private string $email;
 
