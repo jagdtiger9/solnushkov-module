@@ -5,23 +5,17 @@ namespace Aljerom\Solnushkov\Application\CommandHandler;
 use Aljerom\Solnushkov\Application\Command\VerifyTemporaryUserCommand;
 use Aljerom\Solnushkov\Domain\Repository\TemporaryUserRepositoryInterface;
 use Aljerom\Solnushkov\Domain\Service\SystemUser;
-use MagicPro\DomainModel\Entity\DomainEventStoreTrait;
-use MagicPro\DomainModel\Event\DomainEventStoreInterface;
-use MagicPro\Event\Event;
+use MagicPro\Event\EventDispatcherInterface;
 use MagicPro\Messenger\Handler\MessageHandlerInterface;
 use phorum\Domain\Exception\RuntimeException;
 
 class VerifyTemporaryUserCommandHandler implements MessageHandlerInterface
 {
-    use DomainEventStoreTrait;
-
     public function __construct(
-        private Event $event,
+        private EventDispatcherInterface $eventDispatcher,
         private TemporaryUserRepositoryInterface $tempUserRepo,
         private SystemUser $systemUser,
-        DomainEventStoreInterface $domainEventStore,
     ) {
-        $this->domainEventStore = $domainEventStore;
     }
 
     public function __invoke(VerifyTemporaryUserCommand $command): void
@@ -29,10 +23,12 @@ class VerifyTemporaryUserCommandHandler implements MessageHandlerInterface
         if (!$tempUser = $this->tempUserRepo->getByEmailPass($command->email, $command->password)) {
             throw new RuntimeException('Временный пользователь с указанным email-pass не существует');
         }
-
         // Пишем события для проверки-создания системного пользователя и авторизации
         $tempUser->setValidated($this->systemUser);
 
-        $this->storeEntityEvent($tempUser);
+        $domainEvents = $tempUser->releaseDomainEvents();
+        foreach ($domainEvents as $event) {
+            $this->eventDispatcher->dispatch($event);
+        }
     }
 }
