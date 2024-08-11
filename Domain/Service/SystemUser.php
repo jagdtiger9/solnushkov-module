@@ -3,13 +3,13 @@
 namespace Aljerom\Solnushkov\Domain\Service;
 
 use Aljerom\Solnushkov\Domain\Entity\SystemUserDto;
-use MagicPro\Contracts\Database\DatabaseNewInterface;
+use MagicPro\Contracts\Database\DatabaseInterface;
 
 class SystemUser
 {
-    private DatabaseNewInterface $database;
+    private DatabaseInterface $database;
 
-    public function __construct(DatabaseNewInterface $database)
+    public function __construct(DatabaseInterface $database)
     {
         $this->database = $database;
     }

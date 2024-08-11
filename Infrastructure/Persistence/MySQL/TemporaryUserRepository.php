@@ -2,15 +2,15 @@
 
 namespace Aljerom\Solnushkov\Infrastructure\Persistence\MySQL;
 
-use MagicPro\Contracts\Database\DatabaseNewInterface;
+use MagicPro\Contracts\Database\DatabaseInterface;
 use Aljerom\Solnushkov\Domain\Entity\TemporaryUser;
 use Aljerom\Solnushkov\Domain\Repository\TemporaryUserRepositoryInterface;
 
 class TemporaryUserRepository implements TemporaryUserRepositoryInterface
 {
-    private DatabaseNewInterface $database;
+    private DatabaseInterface $database;
 
-    public function __construct(DatabaseNewInterface $database)
+    public function __construct(DatabaseInterface $database)
     {
         $this->database = $database;
     }

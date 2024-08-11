@@ -2,10 +2,8 @@
 
 namespace Aljerom\Solnushkov\Application\ApiResource;
 
-use App\Api\AbstractApiResource;
-use MagicPro\Messenger\Validation\ValidatedMessageInterface;
 use Aljerom\Solnushkov\Application\Command\CreateTemporaryUserCommand;
-use Psr\Http\Message\ServerRequestInterface;
+use MagicPro\Api\AbstractApiResource;
 
 class CreateTemporaryUserApi extends AbstractApiResource
 {
@@ -15,13 +13,6 @@ class CreateTemporaryUserApi extends AbstractApiResource
 Проверяет нет ли такого email в базе и если нет
 записывает куда-то информацию "email" и "пароль"
 STR;
-    }
-
-    public function getValidatedMessage(
-        ServerRequestInterface    $request,
-        ValidatedMessageInterface $validatedMessage
-    ): CreateTemporaryUserCommand {
-        return $validatedMessage->fromRequest($this->inputParam(), $request);
     }
 
     public function inputParam(): string

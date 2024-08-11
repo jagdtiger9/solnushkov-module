@@ -2,13 +2,13 @@
 
 namespace Aljerom\Solnushkov\Application\ApiResource\Dto;
 
-use MagicPro\Messenger\Validation\MessageValidationInterface;
-use MagicPro\Messenger\Validation\MessageValidationTrait;
-use MagicPro\DomainModel\Dto\SimpleDto;
+use MagicPro\DDD\SimpleDto\SimpleDto;
+use MagicPro\Messenger\Validation\MessageValidatedInterface;
+use MagicPro\Messenger\Validation\MessageValidatedTrait;
 
-class ImageOverlayParams extends SimpleDto implements MessageValidationInterface
+class ImageOverlayParams extends SimpleDto implements MessageValidatedInterface
 {
-    use MessageValidationTrait;
+    use MessageValidatedTrait;
 
     /**
      * Файл исходного изображения

@@ -2,11 +2,13 @@
 
 namespace Aljerom\Solnushkov\Application\ApiResource;
 
-use App\Api\AbstractApiResource;
-use MagicPro\Messenger\Validation\ValidatedMessageInterface;
 use Aljerom\Solnushkov\Application\ApiResource\Dto\ImageOverlayParams;
+use MagicPro\Api\AbstractApiResource;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * @method ImageOverlayParams getValidatedMessage(ServerRequestInterface $request)
+ */
 class ImageOverlayApi extends AbstractApiResource
 {
     public function getResourceDescription(): string
@@ -16,11 +18,6 @@ class ImageOverlayApi extends AbstractApiResource
  - наложение цветного фона с параметрами прозрачности
  - наложение текстового элемента
 STR;
-    }
-
-    public function getValidatedMessage(ServerRequestInterface $request, ValidatedMessageInterface $validatedMessage): ImageOverlayParams
-    {
-        return $validatedMessage->fromRequest($this->inputParam(), $request);
     }
 
     public function inputParam(): string

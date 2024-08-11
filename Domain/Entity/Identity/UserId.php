@@ -2,7 +2,7 @@
 
 namespace Aljerom\Solnushkov\Domain\Entity\Identity;
 
-use MagicPro\DomainModel\Entity\Identity\IntegerIdentity;
+use MagicPro\DDD\Entity\Identity\IntegerIdentity;
 use Webmozart\Assert\Assert;
 
 class UserId extends IntegerIdentity

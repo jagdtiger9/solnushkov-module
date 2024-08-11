@@ -3,14 +3,14 @@
 namespace Aljerom\Solnushkov\Application\Command;
 
 use MagicPro\Messenger\Message\CommandInterface;
-use MagicPro\Messenger\Validation\MessageValidationInterface;
-use MagicPro\Messenger\Validation\MessageValidationTrait;
-use MagicPro\DomainModel\Dto\SimpleDto;
+use MagicPro\Messenger\Validation\MessageValidatedInterface;
+use MagicPro\Messenger\Validation\MessageValidatedTrait;
+use MagicPro\DDD\SimpleDto\SimpleDto;
 use Aljerom\Solnushkov\Application\CommandHandler\CreateTemporaryUserCommandHandler;
 
-class CreateTemporaryUserCommand extends SimpleDto implements CommandInterface, MessageValidationInterface
+class CreateTemporaryUserCommand extends SimpleDto implements CommandInterface, MessageValidatedInterface
 {
-    use MessageValidationTrait;
+    use MessageValidatedTrait;
 
     /**
      * Email пользователя

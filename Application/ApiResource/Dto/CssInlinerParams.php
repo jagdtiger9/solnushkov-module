@@ -2,13 +2,13 @@
 
 namespace Aljerom\Solnushkov\Application\ApiResource\Dto;
 
-use MagicPro\Messenger\Validation\MessageValidationInterface;
-use MagicPro\Messenger\Validation\MessageValidationTrait;
-use MagicPro\DomainModel\Dto\SimpleDto;
+use MagicPro\Messenger\Validation\MessageValidatedInterface;
+use MagicPro\Messenger\Validation\MessageValidatedTrait;
+use MagicPro\DDD\SimpleDto\SimpleDto;
 
-class CssInlinerParams extends SimpleDto implements MessageValidationInterface
+class CssInlinerParams extends SimpleDto implements MessageValidatedInterface
 {
-    use MessageValidationTrait;
+    use MessageValidatedTrait;
 
     /**
      * Html текст со стилями

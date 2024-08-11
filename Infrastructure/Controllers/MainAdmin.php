@@ -4,8 +4,8 @@ namespace Aljerom\Solnushkov\Infrastructure\Controllers;
 
 use MagicPro\Application\Controller;
 use MagicPro\Config\Config;
-use MagicPro\Contracts\Database\DatabaseNewInterface;
-use MagicPro\DomainModel\Repository\CycleORM\BulkOperationsTrait;
+use MagicPro\Contracts\Database\DatabaseInterface;
+use MagicPro\DDD\Repository\CycleORM\BulkOperationsTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -25,7 +25,7 @@ class MainAdmin extends Controller
 
     public function actionConvert(
         ServerRequestInterface $request,
-        DatabaseNewInterface   $database
+        DatabaseInterface   $database
     ): ResponseInterface {
         $lentaId = 86;
         $lentaPath = Config::get('dynalenta')['path'];

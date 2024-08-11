@@ -2,11 +2,13 @@
 
 namespace Aljerom\Solnushkov\Application\ApiResource;
 
-use App\Api\AbstractApiResource;
-use MagicPro\Messenger\Validation\ValidatedMessageInterface;
 use Aljerom\Solnushkov\Application\ApiResource\Dto\CssInlinerParams;
+use MagicPro\Api\AbstractApiResource;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * @method CssInlinerParams getValidatedMessage(ServerRequestInterface $request)
+ */
 class CssInlinerApi extends AbstractApiResource
 {
     public function getResourceDescription(): string
@@ -15,11 +17,6 @@ class CssInlinerApi extends AbstractApiResource
 Html + css style inliner
 https://github.com/MyIntervals/emogrifier
 STR;
-    }
-
-    public function getValidatedMessage(ServerRequestInterface $request, ValidatedMessageInterface $validatedMessage): CssInlinerParams
-    {
-        return $validatedMessage->fromRequest($this->inputParam(), $request);
     }
 
     public function inputParam(): string

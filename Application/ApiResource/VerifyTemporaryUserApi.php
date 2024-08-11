@@ -2,10 +2,8 @@
 
 namespace Aljerom\Solnushkov\Application\ApiResource;
 
-use App\Api\AbstractApiResource;
-use MagicPro\Messenger\Validation\ValidatedMessageInterface;
 use Aljerom\Solnushkov\Application\Command\VerifyTemporaryUserCommand;
-use Psr\Http\Message\ServerRequestInterface;
+use MagicPro\Api\AbstractApiResource;
 
 class VerifyTemporaryUserApi extends AbstractApiResource
 {
@@ -15,13 +13,6 @@ class VerifyTemporaryUserApi extends AbstractApiResource
 Проверяет, есть ли такой юзер и совпадает ли пароль.
 Если совпадает, то авторизует юзера и заводит нормальную учетку
 STR;
-    }
-
-    public function getValidatedMessage(
-        ServerRequestInterface    $request,
-        ValidatedMessageInterface $validatedMessage
-    ): VerifyTemporaryUserCommand {
-        return $validatedMessage->fromRequest($this->inputParam(), $request);
     }
 
     public function inputParam(): string

@@ -2,14 +2,13 @@
 
 namespace Aljerom\Solnushkov\Infrastructure\Controllers;
 
-use App\DomainModel\ValueObject\EmailVO;
 use DateTimeImmutable;
 use Exception;
-use MagicPro\Application\Context\RequestContextInterface;
 use MagicPro\Application\Controller;
 use MagicPro\Config\Config;
 use MagicPro\Contracts\MailInterface;
-use MagicPro\DomainModel\ORM\EntityManagerInterface;
+use MagicPro\DDD\DomainModel\ValueObject\EmailVO;
+use MagicPro\DDD\ORM\EntityManagerInterface;
 use MagicPro\Http\Api\ErrorResponse;
 use MagicPro\Http\Api\SuccessResponse;
 use Psr\Http\Message\ResponseInterface;
@@ -21,10 +20,10 @@ use sessauth\Domain\Service\SecretString;
 
 class AdminAction extends Controller
 {
-    public function actionRestoreLetters(ServerRequestInterface $request, RequestContextInterface $context): ResponseInterface
+    public function actionRestoreLetters(ServerRequestInterface $request): ResponseInterface
     {
         try {
-            if (false === $period = $context->getVeryUglyOldGet('restorePeriod')) {
+            if (false === $period = $this->context->getVeryUglyOldGet('restorePeriod')) {
                 throw new \InvalidArgumentException('Не задан период восстановления писем');
             }
 
@@ -99,7 +98,6 @@ class AdminAction extends Controller
         } catch (\Exception $e) {
             $this->flash->set('msg', $e->getMessage(), 'danger');
         }
-
-        return $this->response->redirectBack();
+        return $this->httpHelper->redirectBack($request, $this->response);
     }
 }

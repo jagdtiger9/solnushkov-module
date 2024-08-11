@@ -5,7 +5,7 @@ namespace Aljerom\Solnushkov\Domain\Entity;
 use Aljerom\Solnushkov\Domain\Event\SystemUserCreated;
 use Aljerom\Solnushkov\Domain\Event\TempUserValidated;
 use Aljerom\Solnushkov\Domain\Service\SystemUser;
-use MagicPro\DomainModel\Entity\AggregateRoot;
+use MagicPro\DDD\Entity\AggregateRoot;
 
 class TemporaryUser extends AggregateRoot
 {
