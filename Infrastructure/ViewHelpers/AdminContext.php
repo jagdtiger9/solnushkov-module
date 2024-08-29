@@ -4,33 +4,24 @@ namespace Aljerom\Solnushkov\Infrastructure\ViewHelpers;
 
 use App\Application\FrameworkConfig;
 use MagicPro\Contracts\Session\SessionInterface;
-use MagicPro\Session\Handler\ArrayHandler;
-use MagicPro\Session\Session;
-use MagicPro\Session\Storage\ArrayStorage;
+use MagicPro\Contracts\User\SessionUserInterface;
 use MagicPro\View\ViewHelper\AbstractViewHelper;
 use Psr\Container\ContainerInterface;
+use sessauth\Domain\ReadModel\UserDTO;
 
 /**
  * Включение-выключение админского контекста сессий
  */
 class AdminContext extends AbstractViewHelper
 {
-    private static ?SessionInterface $savedContext = null;
-
-    private SessionInterface $session;
-
-    private ContainerInterface $container;
-
-    private FrameworkConfig $config;
+    private static ?SessionUserInterface $savedContext = null;
 
     public function __construct(
-        SessionInterface   $session,
-        ContainerInterface $container,
-        FrameworkConfig    $config
+        private SessionInterface $session,
+        private SessionUserInterface $user,
+        private ContainerInterface $container,
+        private FrameworkConfig $config
     ) {
-        $this->session = $session;
-        $this->container = $container;
-        $this->config = $config;
     }
 
     /**
@@ -48,32 +39,22 @@ class AdminContext extends AbstractViewHelper
         ];
     }
 
-    /**
-     * Пустой элемент - логический разделитель
-     * @return array
-     */
     public function getData()
     {
         if ($this->params['mode'] === 'on' && null === self::$savedContext) {
-            self::$savedContext = $this->session;
-            $storage = new ArrayStorage(
+            self::$savedContext = $this->user;
+            $user = UserDTO::fromArray(
                 [
+                    'uid' => 1,
                     'login' => 'admin',
-                    'userid' => 1,
-                    'userGroups' => [
-                        0 => 1,
-                        1 => 2,
-                    ],
                     'active' => 1,
-                    'isAuth' => 1,
                 ]
             );
-            $session = new Session(new ArrayHandler(), $storage, $this->config->getDbName());
-            $this->container->set(SessionInterface::class, $session);
+            $this->container->set(SessionUserInterface::class, $user);
         }
 
         if ($this->params['mode'] === 'off' && self::$savedContext) {
-            $this->container->set(SessionInterface::class, self::$savedContext);
+            $this->container->set(SessionUserInterface::class, self::$savedContext);
             self::$savedContext = null;
         }
 
@@ -83,10 +64,6 @@ class AdminContext extends AbstractViewHelper
         ];
     }
 
-    /**
-     * @inheritdoc
-     * @return array
-     */
     public function getPresetTemplates(): array
     {
         return [];

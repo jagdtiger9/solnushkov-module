@@ -19,7 +19,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class Api extends Controller
 {
-    public function actionCssInliner(ServerRequestInterface $request, CssInlinerApi $api): ResponseInterface
+    public function cssInliner(ServerRequestInterface $request, CssInlinerApi $api): ResponseInterface
     {
         try {
             $message = $api->getValidatedMessage($request);
@@ -41,8 +41,7 @@ class Api extends Controller
         } catch (Exception $e) {
             $apiResponse = ErrorResponse::fromException($e);
         }
-
-        return $this->setApiResponse($request, $apiResponse->withRedirect());
+        return $this->setApiResponse($request, $apiResponse);
     }
 
     public function actionCreateTemporaryUser(
