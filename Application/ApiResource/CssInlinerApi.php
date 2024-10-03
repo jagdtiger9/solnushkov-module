@@ -4,10 +4,11 @@ namespace Aljerom\Solnushkov\Application\ApiResource;
 
 use Aljerom\Solnushkov\Application\ApiResource\Dto\CssInlinerParams;
 use MagicPro\Api\AbstractApiResource;
+use MagicPro\Messenger\Validation\ValidatedMessageInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * @method CssInlinerParams getValidatedMessage(ServerRequestInterface $request)
+ * @method CssInlinerParams getValidatedMessage(ServerRequestInterface $request, ValidatedMessageInterface $validatedMessage)
  */
 class CssInlinerApi extends AbstractApiResource
 {

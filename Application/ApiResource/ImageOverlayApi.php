@@ -4,10 +4,11 @@ namespace Aljerom\Solnushkov\Application\ApiResource;
 
 use Aljerom\Solnushkov\Application\ApiResource\Dto\ImageOverlayParams;
 use MagicPro\Api\AbstractApiResource;
+use MagicPro\Messenger\Validation\ValidatedMessageInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * @method ImageOverlayParams getValidatedMessage(ServerRequestInterface $request)
+ * @method ImageOverlayParams getValidatedMessage(ServerRequestInterface $request, ValidatedMessageInterface $validatedMessage)
  */
 class ImageOverlayApi extends AbstractApiResource
 {

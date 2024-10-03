@@ -22,7 +22,7 @@ class Api extends Controller
     public function cssInliner(ServerRequestInterface $request, CssInlinerApi $api): ResponseInterface
     {
         try {
-            $message = $api->getValidatedMessage($request);
+            $message = $api->getValidatedMessage($request, $this->validatedMessage);
             $cssInliner = CssInliner::fromHtml($message->htmlCssText)->inlineCss();
             if ($message->disableStyleBlocksParsing) {
                 $cssInliner = $cssInliner->disableStyleBlocksParsing();
@@ -49,7 +49,7 @@ class Api extends Controller
         CreateTemporaryUserApi $api
     ): ResponseInterface {
         try {
-            $message = $api->getValidatedMessage($request);
+            $message = $api->getValidatedMessage($request, $this->validatedMessage);
             $this->dispatch($message);
             $apiResponse = new SuccessResponse('Данные пользователя успешно сохранены');
         } catch (Exception $e) {
@@ -64,7 +64,7 @@ class Api extends Controller
         VerifyTemporaryUserApi $api
     ): ResponseInterface {
         try {
-            $message = $api->getValidatedMessage($request);
+            $message = $api->getValidatedMessage($request, $this->validatedMessage);
             $this->dispatch($message);
             $apiResponse = new SuccessResponse('');
         } catch (Exception $e) {
@@ -80,7 +80,7 @@ class Api extends Controller
         ImageOverlayCreator $creator
     ): ResponseInterface {
         try {
-            $message = $api->getValidatedMessage($request);
+            $message = $api->getValidatedMessage($request, $this->validatedMessage);
             $creator->handle($message);
             $apiResponse = new SuccessResponse($message->fileResult);
         } catch (Exception $e) {
