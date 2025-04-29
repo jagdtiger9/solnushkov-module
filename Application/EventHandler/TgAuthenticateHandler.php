@@ -3,6 +3,7 @@
 namespace Aljerom\Solnushkov\Application\EventHandler;
 
 use MagicPro\Contracts\Logger\LoggerInterface;
+use MagicPro\Logger\LogContext;
 use MagicPro\View\View;
 use telegram\Domain\Event\TgUserAuthenticated;
 use telegram\Domain\Event\TgUserRegistered;
@@ -29,8 +30,6 @@ class TgAuthenticateHandler
         } catch (\Throwable $e) {
             $result = $e->getMessage();
         }
-        $this->logger
-            ->setLog('telegramUserAuthenticatedArticle.log', 'telegram')
-            ->debug(var_export($result, true));
+        $this->logger->debug(var_export($result, true), new LogContext('telegramUserAuthenticatedArticle.log', 'telegram'));
     }
 }

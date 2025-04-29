@@ -94,9 +94,9 @@ class AdminAction extends Controller
             if (!$mailer->addParams(['password' => $pass])->send($user->email(), $title, $message)) {
                 throw new \RuntimeException('Ошибка отправки письма. ' . $mailer->error());
             }
-            $this->flash->set('msg', 'Письмо успешно отправлено', 'success');
+            $this->flash()->set('msg', 'Письмо успешно отправлено', 'success');
         } catch (\Exception $e) {
-            $this->flash->set('msg', $e->getMessage(), 'danger');
+            $this->flash()->set('msg', $e->getMessage(), 'danger');
         }
         return $this->httpHelper->redirectBack($request, $this->response);
     }
